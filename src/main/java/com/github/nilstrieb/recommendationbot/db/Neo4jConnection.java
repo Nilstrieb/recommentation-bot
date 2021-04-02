@@ -54,6 +54,17 @@ public class Neo4jConnection implements AutoCloseable {
     }
 
     public boolean isSubbed(String uid, String targetId) {
+        try (Session session = driver.session()) {
+            var result = session.writeTransaction(tx -> {
+                Result r = tx.run("""
+                                MATCH (:User {id:$uid}) - [:SUBS_TO] -> (:User {id:$target})
+                                RETURN 
+                                """,
+                        parameters("uid", uid, "target", targetId));
+                return r.single().size();
+            });
+            System.out.println(result);
+        }
         return false;
     }
 
