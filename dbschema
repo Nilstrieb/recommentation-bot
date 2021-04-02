@@ -1,0 +1,7 @@
+(:User {id:number})
+(:Thing {type:string, name:string, tags:[string]})
+
+type: s(show), g(game), m(movie), o(other)
+
+(:User) - [:SUBS_TO] -> (:User)
+(:User) - [:LIKES] -> (:Thing)
